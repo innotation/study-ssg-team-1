@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="selectDeptScore">
+        SELECT
+              tb_grade.STUDENT_NO AS 학번
+            , tb_student.STUDENT_NAME AS 이름
+            , ROUND(SUM(tb_grade.POINT) / COUNT(tb_grade.POINT), 1) AS 학점
+        FROM
+            tb_grade
+        JOIN tb_student ON tb_grade.STUDENT_NO = tb_student.STUDENT_NO
+        WHERE
+            DEPARTMENT_NO = (SELECT
+                                DEPARTMENT_NO
+                            FROM
+                                tb_department
+                            WHERE DEPARTMENT_NAME = ?)
+        GROUP BY
+        tb_grade.STUDENT_NO
+        ORDER BY
+        학점 DESC;
+    </entry>
+</properties>
